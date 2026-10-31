@@ -1,0 +1,22 @@
+# Landing Page — Gestión de Transacciones
+# Taller de Base de Datos · Actividad 4.2 · TecNM
+# --------------------------------------------------------------------------
+# Sitio estático (HTML + CSS + JS, sin build step) listo para GitHub Pages.
+
+# --- Sitio publicado ---
+
+# --- Sistema operativo ---
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# --- Editores ---
+.vscode/
+.idea/
+*.swp
+*~
+
+# --- Node (solo si se agrega tooling) ---
+node_modules/
+npm-debug.log*
+yarn-error.log*
