@@ -1,0 +1,21 @@
+{
+  "_comentario": "Archivo de configuración de la portada. Edita los valores de abajo; el HTML no debe modificarse.",
+  "_urlAyuda": "Si cambias el nombre del repositorio en GitHub, actualiza únicamente el campo 'url'.",
+
+  "institucion": "Tecnológico Nacional de México",
+  "programa": "Ingeniería en Sistemas Computacionales",
+  "materia": "Taller de Base de Datos",
+
+  "titulo": "Gestión de Transacciones",
+  "actividad": "Actividad 4.2 · Unidad 4",
+
+  "alumno": "Angel Daniel Leyva Reyes",
+  "matricula": "________",
+  "docente": "________",
+
+  "fecha": "2026-10-30",
+  "fechaTexto": "30 de octubre de 2026",
+
+  "url": "https://yel-LDV.github.io/ladingpage/",
+  "etiquetaUrl": "Landing Page publicada en GitHub Pages"
+}

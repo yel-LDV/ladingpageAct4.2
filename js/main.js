@@ -11,6 +11,7 @@
    03. Scroll-spy de la navegación
    04. Botón "volver arriba"
    05. Año del pie de página
+   06. Configuración de la portada desde data/portada.json
    ========================================================================== */
 
 (function () {
@@ -208,6 +209,115 @@
   }
 
   /* ------------------------------------------------------------------------
+     06. CONFIGURACIÓN DE LA PORTADA (data/portada.json)
+     ------------------------------------------------------------------------
+     El HTML contiene valores de respaldo para que la página nunca se vea
+     vacía. Cuando el JSON se puede leer, sus valores tienen prioridad.
+
+     Nota: `fetch` está bloqueado en el protocolo file://. Abriendo el archivo
+     con doble clic se muestran los valores del HTML; para ver el JSON en local
+     hay que servir la carpeta (python3 -m http.server).
+     ------------------------------------------------------------------------ */
+  var PORTADA_JSON = './data/portada.json';
+
+  function esPlaceholder(valor) {
+    return /^[\s_\-–—]*$/.test(valor);
+  }
+
+  // Parte el título en dos líneas para respetar el diseño de la portada
+  function escribirTitulo(elemento, texto) {
+    var partes = String(texto).trim().split(/\s+/);
+
+    if (partes.length < 2) {
+      elemento.textContent = texto;
+      return;
+    }
+
+    var ultima = partes.pop();
+
+    elemento.textContent = partes.join(' ') + ' ';
+
+    var acento = document.createElement('span');
+    acento.className = 'grad-text';
+    acento.textContent = ultima;
+    elemento.appendChild(acento);
+  }
+
+  function aplicarPortada(datos) {
+    var campos = document.querySelectorAll('[data-field]');
+
+    Array.prototype.forEach.call(campos, function (elemento) {
+      var clave = elemento.getAttribute('data-field');
+      var valor = datos[clave];
+
+      if (valor === undefined || valor === null || valor === '') return;
+
+      switch (clave) {
+        case 'titulo':
+          escribirTitulo(elemento, valor);
+          break;
+
+        case 'fecha':
+          elemento.textContent = datos.fechaTexto || valor;
+          elemento.setAttribute('datetime', valor);
+          break;
+
+        case 'matricula':
+        case 'docente':
+          elemento.textContent = valor;
+          // Deja de verse como campo pendiente cuando hay un dato real
+          elemento.classList.toggle('placeholder', esPlaceholder(valor));
+          break;
+
+        case 'url':
+          elemento.setAttribute('href', valor);
+          break;
+
+        case 'etiquetaUrl':
+          elemento.textContent = valor;
+          break;
+
+        default:
+          elemento.textContent = valor;
+      }
+    });
+
+    // Enlace visible de la portada
+    var valorUrl = document.querySelector('.portada__url-value');
+    if (valorUrl && datos.url) valorUrl.textContent = datos.url;
+
+    // Metadatos del documento
+    if (datos.url) {
+      var canonical = document.querySelector('link[rel="canonical"]');
+      var ogUrl = document.querySelector('meta[property="og:url"]');
+      if (canonical) canonical.setAttribute('href', datos.url);
+      if (ogUrl) ogUrl.setAttribute('content', datos.url);
+    }
+  }
+
+  function initPortadaConfig() {
+    if (!window.fetch) return;
+
+    fetch(PORTADA_JSON, { cache: 'no-store' })
+      .then(function (respuesta) {
+        if (!respuesta.ok) throw new Error('HTTP ' + respuesta.status);
+        return respuesta.json();
+      })
+      .then(aplicarPortada)
+      .catch(function (error) {
+        if (window.location.protocol === 'file:') {
+          console.warn(
+            '[portada] No se puede leer data/portada.json desde file://. ' +
+            'Se usan los valores escritos en el HTML. Ejecuta ' +
+            '"python3 -m http.server" para previsualizar el JSON en local.'
+          );
+        } else {
+          console.warn('[portada] No se pudo cargar ' + PORTADA_JSON, error);
+        }
+      });
+  }
+
+  /* ------------------------------------------------------------------------
      ARRANQUE
      ------------------------------------------------------------------------ */
   function init() {
@@ -216,6 +326,7 @@
     initScrollSpy();
     initBackToTop();
     initYear();
+    initPortadaConfig();
   }
 
   if (document.readyState === 'loading') {

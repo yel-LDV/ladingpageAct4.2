@@ -17,12 +17,12 @@
   <meta property="og:site_name" content="TecNM · Taller de Base de Datos">
   <meta property="og:title" content="Gestión de Transacciones | Actividad 4.2">
   <meta property="og:description" content="Propiedades ACID, control de concurrencia, niveles de aislamiento y recuperación ante fallos en sistemas gestores de bases de datos relacionales.">
-  <meta property="og:url" content="https://TU-USUARIO.github.io/TU-REPO/">
+  <meta property="og:url" content="https://yel-LDV.github.io/ladingpage/">
   <meta name="twitter:card" content="summary">
   <meta name="twitter:title" content="Gestión de Transacciones | Actividad 4.2">
   <meta name="twitter:description" content="Propiedades ACID, concurrencia, aislamiento y recuperación en bases de datos relacionales.">
 
-  <link rel="canonical" href="https://TU-USUARIO.github.io/TU-REPO/">
+  <link rel="canonical" href="https://yel-LDV.github.io/ladingpage/">
   <link rel="icon" href="./assets/favicon.svg" type="image/svg+xml">
 
   <!-- Tipografía con fallback local: si la CDN no responde, la página se ve igual -->
@@ -245,43 +245,44 @@
           <span class="portada__mark">
             <svg class="icon" aria-hidden="true"><use href="#i-cap"/></svg>
           </span>
-          <p class="portada__org">Tecnológico Nacional de México</p>
+          <p class="portada__org" data-field="institucion">Tecnológico Nacional de México</p>
         </div>
 
-        <p class="portada__program">Ingeniería en Sistemas Computacionales</p>
-        <p class="portada__subject">Taller de Base de Datos</p>
+        <p class="portada__program" data-field="programa">Ingeniería en Sistemas Computacionales</p>
+        <p class="portada__subject" data-field="materia">Taller de Base de Datos</p>
 
-        <h1 class="portada__title" id="portada-title">
+        <h1 class="portada__title" id="portada-title" data-field="titulo">
           Gestión de
           <span class="grad-text">Transacciones</span>
         </h1>
 
-        <p class="portada__activity">Actividad 4.2 · Unidad 4</p>
+        <p class="portada__activity" data-field="actividad">Actividad 4.2 · Unidad 4</p>
 
         <dl class="portada__meta">
           <div class="portada__meta-item">
             <dt>Alumno</dt>
-            <dd>Angel Daniel Leyva Reyes</dd>
+            <dd data-field="alumno">Angel Daniel Leyva Reyes</dd>
           </div>
           <div class="portada__meta-item">
             <dt>Matrícula</dt>
-            <dd class="placeholder">________</dd>
+            <dd class="placeholder" data-field="matricula">________</dd>
           </div>
           <div class="portada__meta-item">
             <dt>Docente</dt>
-            <dd class="placeholder">________</dd>
+            <dd class="placeholder" data-field="docente">________</dd>
           </div>
           <div class="portada__meta-item">
             <dt>Fecha</dt>
-            <dd><time datetime="2026-10-30">30 de octubre de 2026</time></dd>
+            <dd><time datetime="2026-10-30" data-field="fecha">30 de octubre de 2026</time></dd>
           </div>
         </dl>
 
-        <!-- URL pública de la landing: cambiar en este único lugar -->
-        <a class="portada__url" href="https://TU-USUARIO.github.io/TU-REPO/" target="_blank" rel="noopener noreferrer">
+        <!-- Los datos de esta portada se editan en data/portada.json -->
+        <a class="portada__url" href="https://yel-LDV.github.io/ladingpage/" data-field="url"
+           target="_blank" rel="noopener noreferrer">
           <svg class="icon" aria-hidden="true"><use href="#i-link"/></svg>
-          <span class="portada__url-label">Landing Page publicada en GitHub Pages</span>
-          <span class="portada__url-value">https://TU-USUARIO.github.io/TU-REPO/</span>
+          <span class="portada__url-label" data-field="etiquetaUrl">Landing Page publicada en GitHub Pages</span>
+          <span class="portada__url-value">https://yel-LDV.github.io/ladingpage/</span>
         </a>
 
         <a class="btn btn--primary portada__cta" href="#inicio">
@@ -319,8 +320,8 @@
           <span class="author-card__avatar" aria-hidden="true">AL</span>
           <div>
             <p class="author-card__label">Elaborado por</p>
-            <p class="author-card__name">Angel Daniel Leyva Reyes</p>
-            <p class="author-card__role">Ingeniería en Sistemas Computacionales</p>
+            <p class="author-card__name" data-field="alumno">Angel Daniel Leyva Reyes</p>
+            <p class="author-card__role" data-field="programa">Ingeniería en Sistemas Computacionales</p>
           </div>
         </div>
 
@@ -956,7 +957,7 @@
         <div>
           <p class="site-footer__title">Tecnológico Nacional de México · Taller de Base de Datos</p>
           <p class="site-footer__meta">
-            © <span id="year">2026</span> · Elaborado por Angel Daniel Leyva Reyes · Actividad 4.2
+            © <span id="year">2026</span> · Elaborado por <span data-field="alumno">Angel Daniel Leyva Reyes</span> · Actividad 4.2
           </p>
         </div>
       </div>

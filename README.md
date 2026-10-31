@@ -7,118 +7,192 @@ Contenido: propiedades ACID, control de concurrencia y anomalías, protocolo 2PL
 niveles de aislamiento con ejemplos SQL, recuperación ante fallos y referencias
 en formato APA 7.ª edición.
 
+**Sitio publicado:** <https://yel-LDV.github.io/ladingpage/>
+
 ---
 
 ## Estructura del proyecto
 
 ```
 .
-├── index.html          Documento principal (sin estilos ni scripts embebidos)
+├── index.html            Documento principal (sin estilos ni scripts embebidos)
 ├── css/
-│   └── styles.css      Tokens de diseño, componentes, responsive e impresión
+│   └── styles.css        Tokens, componentes, responsive e impresión
 ├── js/
-│   └── main.js         Menú móvil, pestañas ACID, scroll-spy y botón superior
+│   └── main.js           Menú móvil, pestañas ACID, scroll-spy y portada
+├── data/
+│   └── portada.json      ★ Datos de la portada (nombre, matrícula, URL…)
 ├── assets/
-│   └── favicon.svg     Icono del sitio
+│   └── favicon.svg
 ├── respaldo/
-│   └── ...             Versión monolítica original (no se publica)
-├── .nojekyll           Evita el procesamiento de Jekyll en GitHub Pages
+│   └── ...               Versión monolítica original (no se publica)
+├── .nojekyll             Evita el procesamiento de Jekyll en GitHub Pages
 ├── .gitignore
 └── README.md
 ```
 
-Todas las rutas son **relativas** (`./css/styles.css`), por lo que el sitio
-funciona igual en local, en la raíz de un dominio o en un subdirectorio
-`usuario.github.io/repositorio/`.
+Todas las rutas son **relativas**, así que el sitio funciona igual en la raíz de
+un dominio o en un subdirectorio `usuario.github.io/repositorio/`.
+
+---
+
+## ★ Configuración de la portada
+
+Toda la información académica de la hoja de portada vive en un solo archivo:
+
+**`data/portada.json`**
+
+```json
+{
+  "institucion": "Tecnológico Nacional de México",
+  "programa": "Ingeniería en Sistemas Computacionales",
+  "materia": "Taller de Base de Datos",
+  "titulo": "Gestión de Transacciones",
+  "actividad": "Actividad 4.2 · Unidad 4",
+  "alumno": "Angel Daniel Leyva Reyes",
+  "matricula": "________",
+  "docente": "________",
+  "fecha": "2026-10-30",
+  "fechaTexto": "30 de octubre de 2026",
+  "url": "https://yel-LDV.github.io/ladingpage/",
+  "etiquetaUrl": "Landing Page publicada en GitHub Pages"
+}
+```
+
+| Campo | Dónde aparece |
+| ----- | ------------- |
+| `institucion` | Portada, sobre el título |
+| `programa` | Portada y tarjeta de autor del inicio |
+| `materia` | Portada |
+| `titulo` | Título grande de la portada (se parte en dos líneas automáticamente) |
+| `actividad` | Portada y pie de página |
+| `alumno` | Portada, tarjeta de autor y pie de página |
+| `matricula` | Portada |
+| `docente` | Portada |
+| `fecha` / `fechaTexto` | Portada (`fecha` va en formato ISO para el atributo `datetime`) |
+| `url` | Enlace de la portada + `<link rel="canonical">` + `og:url` |
+| `etiquetaUrl` | Texto pequeño sobre la URL |
+
+Reglas de edición:
+
+- **Solo se edita este archivo.** No hace falta tocar `index.html`.
+- Las comillas dobles son obligatorias. Si un valor lleva comillas dentro,
+  escríbelas como `\"`.
+- Las claves que empiezan con `_` son comentarios; el script las ignora.
+- Si dejas `matricula` o `docente` con guiones bajos (`________`), se muestran
+  en gris claro como campo pendiente.
+- Si cambias el **nombre del repositorio** en GitHub, actualiza únicamente
+  `url`. El resto de la página se ajusta solo.
+
+> **Importante:** el JSON se lee con `fetch`, que los navegadores bloquean
+> cuando la página se abre con doble clic (`file://`). En ese caso se muestran
+> los valores escritos directamente en el HTML. Para previsualizar los cambios
+> del JSON en local hay que servir la carpeta (ver abajo) o publicar en GitHub
+> Pages.
 
 ---
 
 ## Ejecutar en local
 
-No requiere instalación ni compilación. Basta con abrir `index.html`:
-
 ```bash
-# Opción 1: doble clic sobre index.html
-
-# Opción 2: servidor local (recomendado, evita restricciones de file://)
+# Recomendado: sirve la carpeta y respeta el JSON
 python3 -m http.server 8000
 # → http://localhost:8000
+
+# Alternativa rápida: doble clic sobre index.html
+# (funciona, pero usa los valores del HTML y no los del JSON)
 ```
 
 ---
 
-## Publicar en GitHub Pages
+## Publicar en GitHub Pages — paso a paso
+
+### Paso 1 · Verifica que el repositorio exista
+
+En <https://github.com/yel-LDV> debe existir un repositorio llamado
+**`ladingpage`**. Si aún no lo tienes, créalo vacío (sin README, sin licencia,
+sin `.gitignore`) desde **New repository**.
+
+> Si el repositorio se llama distinto, la URL final cambia. En ese caso ajusta
+> el campo `url` de `data/portada.json` y usa ese mismo nombre en el `remote`.
+
+### Paso 2 · Conecta y sube el proyecto
+
+El repositorio local ya está inicializado y con los cambios comprometidos.
+Solo falta el remoto:
 
 ```bash
-git init
-git add .
-git commit -m "Landing page Unidad 4: Gestión de Transacciones"
+cd /home/angedl_/Proyectos/ladingpage
+
+git remote add origin https://github.com/yel-LDV/ladingpage.git
 git branch -M main
-git remote add origin https://github.com/USUARIO/REPOSITORIO.git
 git push -u origin main
 ```
 
-Después, en el repositorio:
+Si `remote add` responde `remote origin already exists`:
 
-1. **Settings → Pages**
-2. *Source*: `Deploy from a branch`
-3. *Branch*: `main` · *Folder*: `/ (root)`
-4. **Save** y esperar 1–2 minutos.
-
-La URL pública queda así:
-
-```
-https://USUARIO.github.io/REPOSITORIO/
+```bash
+git remote set-url origin https://github.com/yel-LDV/ladingpage.git
+git push -u origin main
 ```
 
-> En la primera publicación puede tardar unos minutos en aparecer. Si muestra
-> error 404, revisa que exista `index.html` en la raíz de la rama `main`.
+### Paso 3 · Activa GitHub Pages
 
----
+1. Abre el repositorio en GitHub.
+2. Pestaña **Settings** (Configuración).
+3. Menú lateral → **Pages**.
+4. En *Build and deployment* → *Source*: **Deploy from a branch**.
+5. *Branch*: **`main`** · *Folder*: **`/ (root)`**.
+6. Pulsa **Save**.
 
-## ⚠️ Pendiente antes de entregar: actualizar la URL
+### Paso 4 · Espera la publicación
 
-La hoja de portada contiene un marcador de posición que **debe sustituirse por
-la URL real**. Aparece en **cuatro lugares** de `index.html` (búscalos con
-`Ctrl+F` → `TU-USUARIO`):
+GitHub tarda entre 30 segundos y 3 minutos. El progreso se ve en la misma
+pantalla de **Pages** y en la pestaña **Actions**.
 
-| Línea | Elemento | Qué cambiar |
-| ----- | -------- | ----------- |
-| 20 | `og:url` (Open Graph) | URL completa |
-| 25 | `<link rel="canonical">` | URL completa |
-| 281 | `href` del enlace de la portada | URL completa |
-| 284 | Texto visible de la portada | URL completa |
+La URL quedará así:
 
-> Las líneas son orientativas; busca el texto `TU-USUARIO` y reemplaza las
-> cuatro apariciones por la misma dirección.
+```
+https://yel-LDV.github.io/ladingpage/
+```
 
-También hay que completar en la portada:
+### Paso 5 · Verifica
 
-```html
-<dd class="placeholder">________</dd>   <!-- Matrícula -->
-<dd class="placeholder">________</dd>   <!-- Docente -->
+- Abre la URL en una ventana privada (evita caché).
+- Comprueba que la portada muestra la URL correcta y tus datos.
+- Si sale **404**, revisa que `index.html` esté en la raíz de la rama `main`
+  y que el despliegue haya terminado en **Actions**.
+
+### Paso 6 · Actualizaciones futuras
+
+Cada `push` a `main` republica el sitio automáticamente:
+
+```bash
+git add .
+git commit -m "Actualiza datos de la portada"
+git push
 ```
 
 ---
 
 ## Generar el PDF de evidencia
 
-1. Abre el sitio publicado en Chrome o Edge (o `index.html` en local).
+1. Abre <https://yel-LDV.github.io/ladingpage/> en Chrome o Edge.
 2. `Ctrl + P` (Windows/Linux) o `Cmd + P` (macOS).
 3. Destino: **Guardar como PDF**.
-4. Tamaño de papel: **A4** · Márgenes: **Predeterminado**.
-5. Activa **«Gráficos de fondo»** (obligatorio: sin esta opción se pierden la
-   portada y los colores de acento).
+4. Papel **A4**, márgenes **Predeterminado**.
+5. Activa **«Gráficos de fondo»** — obligatorio, sin esto se pierden la portada
+   y los colores de acento.
 6. Desactiva encabezados y pies de página del navegador.
-7. Guarda con el nombre exigido:
+7. Guarda como:
 
 ```
 Leyva-Reyes-Angel-Daniel-Actividad 4.2.pdf
 ```
 
-La hoja de estilos incluye reglas `@media print` que fuerzan la portada en su
-propia página, imprimen **los cuatro paneles ACID** (aunque en pantalla sean
-pestañas) y ocultan la navegación y el botón «volver arriba».
+Las reglas `@media print` fuerzan la portada en su propia página, imprimen
+**los cuatro paneles ACID** (aunque en pantalla sean pestañas) y ocultan la
+navegación y el botón «volver arriba».
 
 ---
 
@@ -131,7 +205,7 @@ pestañas) y ocultan la navegación y el botón «volver arriba».
 - Menú móvil con `aria-expanded` / `aria-controls`; se cierra con `Esc` y al
   hacer clic fuera.
 - Respeto de `prefers-reduced-motion: reduce`.
-- Sin dependencias de frameworks: iconos en SVG inline, sin CDN de JavaScript.
+- Sin frameworks: iconos en SVG inline, sin CDN de JavaScript.
 - Contraste de texto conforme a WCAG AA sobre el fondo oscuro.
 - Metadatos `description`, Open Graph, `canonical` y favicon.
 - Hoja de impresión dedicada para la entrega en PDF.
@@ -140,7 +214,7 @@ pestañas) y ocultan la navegación y el botón «volver arriba».
 
 ## Referencias
 
-Las citas del contenido y la lista final siguen el formato **APA 7.ª edición**:
+El contenido y la lista final siguen el formato **APA 7.ª edición**:
 
 - Coronel, C., & Morris, S. (2019). *Database systems: Design, implementation, and management* (13.ª ed.). Cengage Learning.
 - Elmasri, R., & Navathe, S. B. (2016). *Fundamentals of database systems* (7.ª ed.). Pearson.
