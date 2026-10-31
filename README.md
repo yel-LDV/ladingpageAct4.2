@@ -79,15 +79,18 @@ https://USUARIO.github.io/REPOSITORIO/
 ## ⚠️ Pendiente antes de entregar: actualizar la URL
 
 La hoja de portada contiene un marcador de posición que **debe sustituirse por
-la URL real**. Aparece en **seis lugares** de `index.html` (búscalos con
+la URL real**. Aparece en **cuatro lugares** de `index.html` (búscalos con
 `Ctrl+F` → `TU-USUARIO`):
 
 | Línea | Elemento | Qué cambiar |
 | ----- | -------- | ----------- |
-| `<link rel="canonical">` | SEO | URL completa |
-| `og:url` | Open Graph | URL completa |
-| `.portada__url` → `href` | Enlace de la portada | URL completa |
-| `.portada__url-value` | Texto visible de la portada | URL completa |
+| 20 | `og:url` (Open Graph) | URL completa |
+| 25 | `<link rel="canonical">` | URL completa |
+| 281 | `href` del enlace de la portada | URL completa |
+| 284 | Texto visible de la portada | URL completa |
+
+> Las líneas son orientativas; busca el texto `TU-USUARIO` y reemplaza las
+> cuatro apariciones por la misma dirección.
 
 También hay que completar en la portada:
 
